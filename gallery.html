@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI特效Demo效果集 — 三星堆&敦煌</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#0a0a12;color:#e8e8ef;-webkit-font-smoothing:antialiased;}
+
+.header{text-align:center;padding:48px 20px 32px;background:linear-gradient(180deg,#14142a 0%,#0a0a12 100%);}
+.header h1{font-size:28px;font-weight:700;background:linear-gradient(135deg,#E8D48B,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+.header p{color:#888;font-size:14px;line-height:1.6;}
+
+.container{max-width:720px;margin:0 auto;padding:0 16px 60px;}
+
+/* Section */
+.section{margin-bottom:40px;}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(201,168,76,0.2);}
+.section-icon{font-size:24px;}
+.section-title{font-size:20px;font-weight:700;color:#C9A84C;}
+
+/* Direction Card */
+.dir-card{background:#12121f;border:1px solid rgba(255,255,255,0.08);border-radius:16px;margin-bottom:20px;overflow:hidden;}
+.dir-card-head{padding:16px 20px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.dir-label{font-size:17px;font-weight:600;color:#e8e8ef;}
+.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;}
+.tag-green{background:rgba(45,139,111,0.2);color:#5ECBA1;border:1px solid rgba(45,139,111,0.3);}
+.tag-gold{background:rgba(201,168,76,0.2);color:#E8D48B;border:1px solid rgba(201,168,76,0.3);}
+.tag-blue{background:rgba(43,94,167,0.2);color:#7CB3E8;border:1px solid rgba(43,94,167,0.3);}
+.tag-red{background:rgba(193,59,59,0.15);color:#E87C7C;border:1px solid rgba(193,59,59,0.25);}
+
+.dir-desc{padding:0 20px 14px;font-size:13px;color:#999;line-height:1.7;}
+.dir-desc strong{color:#ccc;}
+
+/* Media area */
+.media-area{padding:0 12px 16px;}
+.media-row{display:flex;gap:8px;margin-bottom:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;}
+.media-row img{height:200px;border-radius:10px;object-fit:cover;flex-shrink:0;scroll-snap-align:start;cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:border-color 0.2s;}
+.media-row img:hover{border-color:rgba(201,168,76,0.4);}
+.media-row video{height:200px;border-radius:10px;flex-shrink:0;scroll-snap-align:start;background:#000;border:1px solid rgba(255,255,255,0.08);}
+
+/* Full-width media */
+.media-full{padding:0 12px 16px;}
+.media-full img{width:100%;border-radius:10px;border:1px solid rgba(255,255,255,0.08);}
+.media-full video{width:100%;border-radius:10px;background:#000;}
+
+/* Demo link */
+.demo-links{padding:0 20px 16px;}
+.demo-link{display:block;padding:12px 16px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;color:#E8D48B;text-decoration:none;font-size:14px;margin-bottom:8px;transition:all 0.2s;}
+.demo-link:hover{background:rgba(201,168,76,0.15);border-color:rgba(201,168,76,0.4);}
+.demo-link .link-icon{margin-right:8px;}
+.demo-link .link-desc{display:block;font-size:12px;color:#888;margin-top:4px;}
+
+/* Hashtag */
+.hashtag{display:inline-block;padding:3px 10px;background:rgba(201,168,76,0.08);border-radius:12px;font-size:12px;color:#C9A84C;margin:0 4px 4px 0;}
+
+/* Media caption */
+.media-caption{font-size:11px;color:#666;text-align:center;padding:4px 12px 8px;}
+
+/* Lightbox */
+.lightbox{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.95);z-index:9999;justify-content:center;align-items:center;cursor:zoom-out;padding:20px;}
+.lightbox.active{display:flex;}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:8px;object-fit:contain;}
+
+.footer{text-align:center;padding:24px 16px;color:#444;font-size:11px;line-height:1.6;border-top:1px solid rgba(255,255,255,0.04);}
+
+@media (max-width:500px){
+  .header{padding:36px 16px 24px;}
+  .header h1{font-size:20px;}
+  .header p{font-size:13px;}
+  .media-row img,.media-row video{height:140px;}
+  .dir-label{font-size:15px;}
+  .dir-desc{font-size:12px;}
+  .section{margin-bottom:32px;}
+  .dir-card{margin-bottom:16px;border-radius:12px;}
+  .dir-card-head{padding:14px 16px 10px;}
+  .tag{font-size:10px;padding:2px 8px;}
+  .media-area{padding:0 10px 12px;}
+  .media-full{padding:0 10px 12px;}
+  .demo-links{padding:0 16px 12px;}
+  .demo-link{padding:10px 12px;font-size:13px;}
+  .footer{padding:20px 12px;font-size:10px;}
+}
+/* 移动端触摸优化 */
+@media (hover: none) and (pointer: coarse){
+  .media-row{scrollbar-width:none;-ms-overflow-style:none;}
+  .media-row::-webkit-scrollbar{display:none;}
+  .media-row img,.media-row video{scroll-snap-align:center;}
+  video{outline:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI特效 Demo效果集</h1>
+  <p>微信视频号 × 三星堆&敦煌<br>企微沟通确认的创意方向 · 原始效果图+Demo视频<br>敦煌特效支持：大人/小孩/宠物 一特效多识别</p>
+</div>
+
+<div class="container">
+
+<!-- ==================== 敦煌 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">🏜️</span>
+    <span class="section-title">敦煌方向</span>
+  </div>
+
+  <!-- A. 飞天变装（一特效多识别） -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">A. 敦煌飞天变装（AI视频）</span>
+      <span class="tag tag-green">⭐ 优先尝试</span>
+      <span class="tag tag-gold">一特效多识别</span>
+    </div>
+    <div class="dir-desc">
+      <strong>一个特效，智能识别多种主体：</strong>大人脸、小孩脸、宠物脸，自动适配生成。<br>
+      用户上传照片 → AI生成飞天仙女造型，并<strong>穿越到莫高窟场景跳舞</strong>的短视频（5-12秒）。<br>
+      岩彩矿物色 · 非写实 · 强文化感 · 保证看清用户特征
+    </div>
+    <div class="media-area">
+      <div class="media-row">
+        <img src="demo_assets/dunhuang_girl_feitian.png" alt="小女孩飞天变装效果图" onclick="openLB(this)">
+        <img src="demo_assets/dunhuang_woman_feitian.png" alt="成年女子飞天变装效果图" onclick="openLB(this)">
+        <img src="demo_assets/dunhuang_pet_feitian.png" alt="萌宠飞天变装效果图" onclick="openLB(this)">
+      </div>
+    </div>
+    <div class="media-caption">← 左右滑动查看：小女孩飞天 / 成年女子飞天 / 萌宠飞天</div>
+    <div class="media-full">
+      <video controls playsinline preload="metadata" poster="">
+        <source src="demo_assets/dunhuang_girl_feitian_video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="media-caption">▶ 飞天穿越莫高窟跳舞 AI视频Demo</div>
+    <div class="media-full">
+      <video controls playsinline preload="metadata">
+        <source src="demo_assets/dunhuang_cat_dance.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="media-caption">▶ 萌宠飞天跳舞 AI视频Demo</div>
+    <div class="dir-desc">
+      <span class="hashtag">#我的敦煌飞天像</span>
+      <span class="hashtag">#一键飞天</span>
+      <span class="hashtag">#我家毛孩子成仙了</span>
+    </div>
+  </div>
+
+  <!-- C. 敦煌邀请函 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">C. 敦煌邀请函·莫高1660（动态社交）</span>
+      <span class="tag tag-gold">☑️ 可以尝试</span>
+      <span class="tag tag-red">馆方最想要社交裂变</span>
+    </div>
+    <div class="dir-desc">
+      2026年是<strong>莫高窟始建1660周年</strong>。用户上传照片 → AI生成飞天仙女手持卷轴的<strong>动态邀请函</strong>（可自定义祝福语）。<br>
+      保持岩彩矿物色画风，邀请好友"赴一场千年之约"。生成后直接分享微信好友/朋友圈，好友打开也能生成自己的。<br>
+      <strong>全年通用</strong>（不限春节），可结合暑期旅游旺季、中秋、国庆等多节点运营。<br>
+      完美替代贺卡的社交裂变功能，且不受季节限制。
+    </div>
+    <div class="media-full" style="padding:0 12px 16px;">
+      <img src="demo_assets/dunhuang_invitation_demo.png" alt="敦煌邀请函Demo效果图" onclick="openLB(this)" style="width:100%;border-radius:10px;">
+    </div>
+    <div class="media-caption">敦煌邀请函AI生成Demo · 飞天持卷轴+岩彩风（新创意方向）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#千年之约·敦煌邀请函</span>
+      <span class="hashtag">#莫高1660</span>
+    </div>
+  </div>
+
+  <!-- D. 飞天弹乐器 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">D. 飞天弹乐器（AI视频）</span>
+      <span class="tag tag-gold">☑️ 可以尝试</span>
+    </div>
+    <div class="dir-desc">
+      用户上传照片 → AI生成飞天弹琵琶短视频（5-12秒）。<br>
+      反弹琵琶经典造型，视频内容天然适合视频号。
+    </div>
+    <div class="dir-desc">
+      <span class="hashtag">#我在敦煌弹了一曲</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 三星堆 ==================== -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">🏛️</span>
+    <span class="section-title">三星堆方向</span>
+  </div>
+
+  <!-- E. 穿越三星堆 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">E. 穿越到三星堆</span>
+      <span class="tag tag-blue">🔄 馆方汇报中</span>
+    </div>
+    <div class="dir-desc">
+      用户上传照片 → 穿越到神秘三星堆文物世界。<br>
+      CG电影风（参考王者×张艺谋《瞳》风格），需官方素材训练专属场景LoRA。
+    </div>
+    <div class="media-area">
+      <div class="media-row">
+        <video controls playsinline preload="metadata" style="width:48%;min-width:200px;">
+          <source src="demo_assets/sanxingdui_scene1.mp4" type="video/mp4">
+        </video>
+        <video controls playsinline preload="metadata" style="width:48%;min-width:200px;">
+          <source src="demo_assets/sanxingdui_scene2.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="media-caption">▶ 三星堆穿越场景参考视频（2个）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#穿越三千年</span>
+    </div>
+  </div>
+
+  <!-- F. 萌化面具 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">F. 萌化三星堆面具（Q版文创）</span>
+      <span class="tag tag-green">✅ 可尝试方向1</span>
+    </div>
+    <div class="dir-desc">
+      用户上传照片 → 变成三星堆同款<strong>Q版萌化娃娃</strong>，融入馆方文创元素（啾啾鸟、堆堆系列、金面佑安等）。<br>
+      Q版画风场景中呈现三星堆文创IP形象，用户也能<strong>变身Q版三星堆形象动起来</strong>。
+    </div>
+    <div class="media-area">
+      <div class="media-row">
+        <img src="demo_assets/sanxingdui_qban_model.png" alt="三星堆Q版青铜器模型（多角度）" onclick="openLB(this)">
+        <img src="demo_assets/sanxingdui_jinmian_youan.png" alt="三星堆·金面佑安盲盒" onclick="openLB(this)">
+        <img src="demo_assets/sanxingdui_jinmian_qifu.png" alt="三星堆·金面祈福文创" onclick="openLB(this)">
+      </div>
+    </div>
+    <div class="media-caption">← 滑动：Q版青铜器3D模型 / 金面佑安盲盒 / 金面祈福文创（企微原始素材）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#我的三星堆盲盒脸</span>
+      <span class="hashtag">#萌化面具</span>
+    </div>
+  </div>
+
+  <!-- G. 古蜀祈福 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">G. 古蜀祈福变身（王者CG风）</span>
+      <span class="tag tag-green">✅ 可尝试方向2</span>
+    </div>
+    <div class="dir-desc">
+      用户变身王者英雄感风格形象，在通天神树下新春祈福。<br>
+      <strong>画风类似王者荣耀CG</strong>（参考下图金面具少年），类似的风格化处理但不完全一致。<br>
+      CG级质感：青铜金+祭祀红+古蜀绿。
+    </div>
+    <div class="media-full" style="padding:0 12px 16px;">
+      <img src="demo_assets/sanxingdui_wangzhe_cg.png" alt="王者荣耀CG风格参考" onclick="openLB(this)" style="width:100%;border-radius:10px;">
+    </div>
+    <div class="media-caption">王者荣耀×三星堆CG风格参考 · 金面具少年（目标画风）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#古蜀英雄降临</span>
+    </div>
+  </div>
+
+  <!-- H. 打麻将 -->
+  <div class="dir-card">
+    <div class="dir-card-head">
+      <span class="dir-label">H. 和青铜器打麻将</span>
+      <span class="tag tag-blue">🔄 馆方汇报中</span>
+    </div>
+    <div class="dir-desc">
+      用户上传照片 → 坐到三缺一的位置上和三星堆青铜器人物打麻将。<br>
+      趣味互动 · 需平衡文化尊重 · 画风待馆方确认。
+    </div>
+    <div class="media-full" style="padding:0 12px 16px;">
+      <img src="demo_assets/sanxingdui_mahjong_ref.png" alt="三星堆打麻将参考图" onclick="openLB(this)" style="width:100%;border-radius:10px;">
+    </div>
+    <div class="media-caption">三星堆Q版打麻将风格参考（三星堆博物馆官方素材）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#三星堆三缺一</span>
+    </div>
+  </div>
+
+  <!-- I. 神器鉴定官（新创意） -->
+  <div class="dir-card" style="border-color:rgba(45,139,111,0.3);">
+    <div class="dir-card-head">
+      <span class="dir-label">I. 三星堆·神器鉴定官</span>
+      <span class="tag tag-green">🆕 新增创意</span>
+    </div>
+    <div class="dir-desc">
+      配合<strong>"双星耀世"国博大展</strong>（2026.1.18-8.18），线下观展+线上特效联动。<br>
+      用户上传自拍 → AI生成用户手持一件<strong>随机三星堆神器</strong>（金杖/青铜神树/纵目面具/金面具等），CG风"鉴宝/开箱"时刻，配鉴定词（如"天选之人·获得·金面具·守护"）。<br>
+      <strong>共8件神器可收集</strong>，每次随机一件，集齐可获"古蜀守护者"称号特效。<br>
+      抽卡+收集机制 → 用户反复拍、比较"谁抽到了什么"→ 天然适合群聊传播。
+    </div>
+    <div class="media-full" style="padding:0 12px 16px;">
+      <img src="demo_assets/sanxingdui_shenqi_demo.png" alt="三星堆神器鉴定官Demo" onclick="openLB(this)" style="width:100%;border-radius:10px;">
+    </div>
+    <div class="media-caption">三星堆·神器鉴定官 AI生成Demo · CG风鉴宝时刻（新创意方向）</div>
+    <div class="dir-desc">
+      <span class="hashtag">#三星堆神器鉴定</span>
+      <span class="hashtag">#我的古蜀神器</span>
+      <span class="hashtag">#双星耀世</span>
+    </div>
+  </div>
+
+  <!-- 已开发Demo -->
+  <div class="dir-card" style="border-color:rgba(201,168,76,0.3);">
+    <div class="dir-card-head">
+      <span class="dir-label">🎮 已开发可交互Demo</span>
+      <span class="tag tag-gold">可体验</span>
+    </div>
+    <div class="dir-desc">
+      以下两个Demo已完成开发，主要展示<strong>"穿越三星堆"和"变身祭祀大神"</strong>方向的交互效果，可直接在浏览器中体验：
+    </div>
+    <div class="demo-links">
+      <a class="demo-link" href="http://172.20.10.2:8080/wechat_ar_full_demo.html" target="_blank">
+        <span class="link-icon">🔗</span> 微信AR完整Demo — 用户穿越+变身祭祀大神
+        <span class="link-desc">wechat_ar_full_demo.html — 包含完整AR互动流程</span>
+      </a>
+      <a class="demo-link" href="http://172.20.10.2:8080/sanxingdui_ar_demo.html" target="_blank">
+        <span class="link-icon">🔗</span> 三星堆神明附体AR特效 — 变身三星堆祭祀大神
+        <span class="link-desc">sanxingdui_ar_demo.html — 三星堆专属AR变身体验</span>
+      </a>
+    </div>
+    <div class="dir-desc" style="font-size:12px;color:#666;">
+      ⚠️ 需连接内网访问（172.20.10.2:8080）
+    </div>
+  </div>
+
+</div>
+
+</div><!-- container -->
+
+<div class="footer">
+  微信视频号 × 三星堆&敦煌 AI特效合作方案<br>
+  所有效果图来自企微沟通确认的原始素材 · 视频为AI生成Demo<br>
+  2026年4月
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lb" onclick="closeLB()">
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+function openLB(el){document.getElementById('lbImg').src=el.src;document.getElementById('lb').classList.add('active');}
+function closeLB(){document.getElementById('lb').classList.remove('active');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+</script>
+</body>
+</html>
