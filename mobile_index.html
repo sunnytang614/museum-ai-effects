@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>微信视频号 × 三星堆&敦煌 AI特效合作方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,'PingFang SC','Helvetica Neue',sans-serif;background:#0a0a12;color:#e8e8ef;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+/* 顶部导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,18,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.nav-title{font-size:15px;font-weight:600;color:#E8D48B;}
+.nav-tabs{display:flex;gap:8px;}
+.nav-tab{padding:6px 12px;border-radius:16px;font-size:12px;background:rgba(255,255,255,0.06);color:#888;border:none;cursor:pointer;transition:all 0.2s;}
+.nav-tab.active{background:linear-gradient(135deg,#E8D48B,#C9A84C);color:#1a1a2e;}
+.nav-tab:active{transform:scale(0.95);}
+
+/* 主内容区 */
+.main{padding-top:60px;padding-bottom:80px;}
+
+/* Tab内容 */
+.tab-content{display:none;padding:16px;}
+.tab-content.active{display:block;}
+
+/* Hero区域 */
+.hero{text-align:center;padding:32px 20px;background:linear-gradient(180deg,#1a1a2e 0%,#0a0a12 100%);margin-bottom:16px;}
+.hero h1{font-size:22px;font-weight:700;background:linear-gradient(135deg,#E8D48B,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;line-height:1.3;}
+.hero .subtitle{font-size:13px;color:#888;line-height:1.6;}
+.hero .stats{display:flex;justify-content:center;gap:24px;margin-top:20px;}
+.hero .stat{text-align:center;}
+.hero .stat-value{font-size:24px;font-weight:700;color:#E8D48B;}
+.hero .stat-label{font-size:11px;color:#666;margin-top:4px;}
+
+/* 卡片样式 */
+.card{background:#12121f;border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.card-header{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:10px;}
+.card-label{font-size:14px;font-weight:600;color:#E8D48B;}
+.card-tag{padding:3px 8px;border-radius:10px;font-size:10px;background:rgba(255,255,255,0.06);color:#888;}
+.card-tag.green{background:rgba(45,139,111,0.15);color:#2D8B6E;}
+.card-tag.blue{background:rgba(59,130,246,0.15);color:#3B82F6;}
+.card-tag.gold{background:rgba(201,168,76,0.15);color:#C9A84C;}
+.card-body{padding:12px 16px 16px;}
+.card-desc{font-size:13px;color:#aaa;line-height:1.6;margin-bottom:12px;}
+
+/* 图片网格 */
+.img-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.img-grid.single{grid-template-columns:1fr;}
+.img-item{position:relative;border-radius:8px;overflow:hidden;background:#1a1a2e;aspect-ratio:1;}
+.img-item.wide{aspect-ratio:16/9;grid-column:1/-1;}
+.img-item img{width:100%;height:100%;object-fit:cover;cursor:pointer;transition:transform 0.3s;}
+.img-item img:active{transform:scale(0.98);}
+.img-item .placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a2e,#12121f);color:#444;font-size:12px;}
+.img-item .play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;background:rgba(0,0,0,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.img-item .play-btn::after{content:'';width:0;height:0;border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px;}
+
+/* 方案内容 */
+.section{margin-bottom:20px;}
+.section-title{font-size:16px;font-weight:600;color:#E8D48B;margin-bottom:12px;padding-left:12px;border-left:3px solid #C9A84C;}
+.text-block{font-size:13px;color:#aaa;line-height:1.8;}
+.text-block strong{color:#E8D48B;}
+.text-block ul{padding-left:20px;margin:8px 0;}
+.text-block li{margin:6px 0;}
+
+/* 表格 */
+.table-wrap{overflow-x:auto;margin:12px 0;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06);}
+th{background:#1a1a2e;color:#E8D48B;font-weight:600;}
+td{color:#aaa;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+
+/* 底部导航 */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,10,18,0.95);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.08);padding:8px 16px 24px;display:flex;justify-content:space-around;}
+.bottom-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 16px;border:none;background:none;color:#666;cursor:pointer;transition:all 0.2s;}
+.bottom-btn.active{color:#E8D48B;}
+.bottom-btn svg{width:22px;height:22px;}
+.bottom-btn span{font-size:10px;}
+
+/* 灯箱 */
+.lightbox{position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;}
+.lightbox.active{display:flex;}
+.lightbox img{max-width:95%;max-height:90vh;object-fit:contain;}
+.lightbox-close{position:absolute;top:16px;right:16px;width:40px;height:40px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.lightbox-close::before,.lightbox-close::after{content:'';position:absolute;width:18px;height:2px;background:#fff;border-radius:1px;}
+.lightbox-close::before{transform:rotate(45deg);}
+.lightbox-close::after{transform:rotate(-45deg);}
+
+/* 加载骨架 */
+.skeleton{background:linear-gradient(90deg,#1a1a2e 25%,#252538 50%,#1a1a2e 75%);background-size:200% 100%;animation:skeleton 1.5s infinite;}
+@keyframes skeleton{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* 懒加载占位 */
+.lazy-img{opacity:0;transition:opacity 0.3s;}
+.lazy-img.loaded{opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="nav">
+  <div class="nav-title">AI特效合作方案</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="overview">概览</button>
+    <button class="nav-tab" data-tab="effects">效果图</button>
+    <button class="nav-tab" data-tab="plan">方案</button>
+  </div>
+</nav>
+
+<!-- 主内容 -->
+<main class="main">
+  
+  <!-- 概览Tab -->
+  <div id="overview" class="tab-content active">
+    <div class="hero">
+      <h1>微信视频号 × 三星堆&敦煌<br>AI特效合作方案</h1>
+      <p class="subtitle">国家级文博IP × 视频号AI特效<br>2026年两大IP事件密度历史最高</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">9</div>
+          <div class="stat-label">特效方向</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">2</div>
+          <div class="stat-label">文博IP</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">7</div>
+          <div class="stat-label">月展期</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">为什么是现在</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <p><strong>三星堆</strong>："双星耀世"国博大展（2026.1.18—8.18），展期7个月，覆盖春节+五一+暑假，金面具4月亮相</p>
+            <p style="margin-top:10px;"><strong>敦煌</strong>：莫高窟始建1660周年（366+1660=2026），重大纪念节点</p>
+            <p style="margin-top:10px;color:#E8D48B;">→ 2026年是近5年两大IP事件密度最高的一年</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">业务目标</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <ul>
+              <li><strong>特效跟拍破万</strong>：用户使用特效创作视频</li>
+              <li><strong>VV破千万</strong>：相关视频播放量</li>
+              <li><strong>传播资源</strong>：SSV + 公众号 + 视频号生态 + 明星大V跟拍</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">技术核心</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <p><strong>"骨相+皮相"双层架构</strong></p>
+            <p style="margin-top:8px;">骨相层：人脸/人体骨骼点检测，驱动动作</p>
+            <p style="margin-top:4px;">皮相层：AI生成特效贴图，实现风格化</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">9大特效方向</div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-label">敦煌（4个）</span>
+        </div>
+        <div class="card-body">
+          <div class="text-block">
+            <p><strong>A. 飞天变装写真</strong> — 人脸融合飞天妆容</p>
+            <p><strong>B. 萌宠飞天变身</strong> — 宠物变飞天神兽</p>
+            <p><strong>C. 邀请函·莫高1660</strong> — 生成专属邀请函</p>
+            <p><strong>D. 邀请函</strong> — 敦煌主题邀请函</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-label">三星堆（5个）</span>
+        </div>
+        <div class="card-body">
+          <div class="text-block">
+            <p><strong>E. 穿越到三星堆</strong> — 场景穿越特效</p>
+            <p><strong>F. 萌化面具</strong> — Q版青铜面具</p>
+            <p><strong>G. 古蜀祈福</strong> — 祈福互动特效</p>
+            <p><strong>H. 打麻将</strong> — 青铜器打麻将</p>
+            <p><strong>I. 神器鉴定官</strong> — AI鉴定神器</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 效果图Tab -->
+  <div id="effects" class="tab-content">
+    
+    <!-- A. 飞天变装写真 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">A. 飞天变装写真</span>
+        <span class="card-tag gold">敦煌</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">人脸融合飞天妆容，支持多年龄段</p>
+        <div class="img-grid">
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_girl_feitian.jpg" alt="小女孩飞天变装" onclick="openLB(this)">
+          </div>
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_woman_feitian.jpg" alt="成年女子飞天变装" onclick="openLB(this)">
+          </div>
+          <div class="img-item wide">
+            <div class="placeholder skeleton" style="aspect-ratio:16/9;">视频加载中...</div>
+            <video class="lazy-img" data-src="demo_assets/dunhuang_girl_feitian_video.mp4" muted playsinline onclick="this.play()" style="display:none;"></video>
+            <div class="play-btn" onclick="this.previousElementSibling.style.display='block';this.style.display='none';this.previousElementSibling.play()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- B. 萌宠飞天变身 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">B. 萌宠飞天变身</span>
+        <span class="card-tag gold">敦煌</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">宠物变飞天神兽，白猫+白兔</p>
+        <div class="img-grid">
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_pet_feitian.jpg" alt="萌宠飞天变装" onclick="openLB(this)">
+          </div>
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_pet_feitian2.jpg" alt="萌宠飞天变装2" onclick="openLB(this)">
+          </div>
+          <div class="img-item wide">
+            <div class="placeholder skeleton">视频加载中...</div>
+            <video class="lazy-img" data-src="demo_assets/dunhuang_cat_dance.mp4" muted playsinline onclick="this.play()" style="display:none;"></video>
+            <div class="play-btn" onclick="this.previousElementSibling.style.display='block';this.style.display='none';this.previousElementSibling.play()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- C. 邀请函·莫高1660 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">C. 邀请函·莫高1660</span>
+        <span class="card-tag gold">敦煌</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">生成专属敦煌邀请函，纪念莫高窟1660周年</p>
+        <div class="img-grid single">
+          <div class="img-item wide">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_invitation_demo.jpg" alt="敦煌邀请函Demo" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- D. 邀请函 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">D. 邀请函</span>
+        <span class="card-tag gold">敦煌</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">敦煌主题邀请函，参考敦煌贺卡设计</p>
+        <div class="img-grid single">
+          <div class="img-item wide">
+            <img class="lazy-img" data-src="demo_assets/dunhuang_card_ref.jpg" alt="敦煌贺卡参考" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- E. 穿越到三星堆 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">E. 穿越到三星堆</span>
+        <span class="card-tag blue">三星堆</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">场景穿越特效，从现代穿越到古蜀</p>
+        <div class="img-grid">
+          <div class="img-item wide">
+            <div class="placeholder skeleton">视频加载中...</div>
+            <video class="lazy-img" data-src="demo_assets/sanxingdui_scene1.mp4" muted playsinline onclick="this.play()" style="display:none;"></video>
+            <div class="play-btn" onclick="this.previousElementSibling.style.display='block';this.style.display='none';this.previousElementSibling.play()"></div>
+          </div>
+          <div class="img-item wide">
+            <div class="placeholder skeleton">视频加载中...</div>
+            <video class="lazy-img" data-src="demo_assets/sanxingdui_scene2.mp4" muted playsinline onclick="this.play()" style="display:none;"></video>
+            <div class="play-btn" onclick="this.previousElementSibling.style.display='block';this.style.display='none';this.previousElementSibling.play()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- F. 萌化面具 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">F. 萌化面具</span>
+        <span class="card-tag blue">三星堆</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">Q版青铜面具，融入啾啾鸟等文创元素</p>
+        <div class="img-grid">
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_qban_model.jpg" alt="Q版青铜器模型" onclick="openLB(this)">
+          </div>
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_jinmian_youan.jpg" alt="金面佑安盲盒" onclick="openLB(this)">
+          </div>
+          <div class="img-item">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_jinmian_qifu.jpg" alt="金面祈福文创" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- G. 古蜀祈福 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">G. 古蜀祈福</span>
+        <span class="card-tag blue">三星堆</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">祈福互动特效，参考王者荣耀CG风格</p>
+        <div class="img-grid single">
+          <div class="img-item wide">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_wangzhe_cg.jpg" alt="王者荣耀CG参考" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- H. 打麻将 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-label">H. 青铜器打麻将</span>
+        <span class="card-tag blue">三星堆</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">青铜器打麻将趣味特效</p>
+        <div class="img-grid single">
+          <div class="img-item wide">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_mahjong_ref.jpg" alt="打麻将参考图" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- I. 神器鉴定官 -->
+    <div class="card" style="border-color:rgba(45,139,111,0.3);">
+      <div class="card-header">
+        <span class="card-label">I. 神器鉴定官</span>
+        <span class="card-tag green">新增</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">AI鉴定神器，识别文物并生成鉴定报告</p>
+        <div class="img-grid single">
+          <div class="img-item wide">
+            <img class="lazy-img" data-src="demo_assets/sanxingdui_shenqi_demo.jpg" alt="神器鉴定官Demo" onclick="openLB(this)">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- 方案Tab -->
+  <div id="plan" class="tab-content">
+    <div class="section">
+      <div class="section-title">一、为什么是现在</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="table-wrap">
+            <table>
+              <tr><th>IP</th><th>2026关键事件</th><th>时间窗口</th></tr>
+              <tr><td>三星堆</td><td>"双星耀世"国博大展</td><td>2026.1.18—8.18（7个月）</td></tr>
+              <tr><td>三星堆</td><td>申遗冲刺</td><td>2025-2027</td></tr>
+              <tr><td>敦煌</td><td>莫高窟始建1660周年</td><td>全年</td></tr>
+              <tr><td>敦煌</td><td>"数字藏经洞"平台运营1周年</td><td>7.4万条文物目录</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">二、竞争格局</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="table-wrap">
+            <table>
+              <tr><th>平台</th><th>核心工具</th><th>文博AI特效现状</th></tr>
+              <tr><td>抖音</td><td>即梦AI</td><td>已占先发：敦煌飞天换装等</td></tr>
+              <tr><td>快手</td><td>可灵AI</td><td>AR特效，暂无深度文博合作</td></tr>
+              <tr><td>视频号</td><td>混元AI</td><td>空白机会，可抢占</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">三、技术方案</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <p><strong>"骨相+皮相"双层架构</strong></p>
+            <ul>
+              <li><strong>骨相层</strong>：人脸/人体骨骼点检测，驱动动作</li>
+              <li><strong>皮相层</strong>：AI生成特效贴图，实现风格化</li>
+            </ul>
+            <p style="margin-top:12px;"><strong>技术栈</strong>：混元AI视频生成 + 腾讯AI Lab骨骼驱动</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">四、传播策略</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <ul>
+              <li><strong>SSV传播</strong>：可持续社会价值项目背书</li>
+              <li><strong>公众号矩阵</strong>：文博类、旅游类公众号联动</li>
+              <li><strong>视频号生态</strong>：原生特效入口，用户跟拍</li>
+              <li><strong>明星大V</strong>：跟拍带动传播</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">五、数据支撑</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <ul>
+              <li>三星堆2023年游客量：破300万人次</li>
+              <li>敦煌2023年游客量：破400万人次</li>
+              <li>视频号日活：5亿+</li>
+              <li>混元AI视频生成：腾讯自研，已上线</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">六、下一步</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="text-block">
+            <ol style="padding-left:16px;">
+              <li>与馆方确认合作意向</li>
+              <li>确定特效方向优先级</li>
+              <li>启动特效开发</li>
+              <li>制定传播计划</li>
+              <li>上线运营</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align:center;padding:20px;color:#666;font-size:12px;">
+      文档版本：v2.0 | 制作日期：2026年4月3日<br>
+      聚焦范围：仅微信视频号AI特效合作
+    </div>
+  </div>
+  
+</main>
+
+<!-- 底部导航 -->
+<nav class="bottom-nav">
+  <button class="bottom-btn active" data-tab="overview">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    <span>概览</span>
+  </button>
+  <button class="bottom-btn" data-tab="effects">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    <span>效果图</span>
+  </button>
+  <button class="bottom-btn" data-tab="plan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+    <span>方案</span>
+  </button>
+</nav>
+
+<!-- 灯箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLB()">
+  <div class="lightbox-close"></div>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+// Tab切换
+document.querySelectorAll('.nav-tab, .bottom-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.bottom-btn').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.nav-tab[data-tab="${tab}"]`).classList.add('active');
+    document.querySelector(`.bottom-btn[data-tab="${tab}"]`).classList.add('active');
+    document.getElementById(tab).classList.add('active');
+    // 切换到效果图时触发懒加载
+    if (tab === 'effects') initLazyLoad();
+  });
+});
+
+// 懒加载
+function initLazyLoad() {
+  const imgs = document.querySelectorAll('.lazy-img[data-src]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const src = el.dataset.src;
+        if (el.tagName === 'IMG') {
+          el.src = src;
+          el.onload = () => el.classList.add('loaded');
+        } else if (el.tagName === 'VIDEO') {
+          el.src = src;
+          el.onloadeddata = () => el.classList.add('loaded');
+        }
+        observer.unobserve(el);
+      }
+    });
+  }, { rootMargin: '100px' });
+  imgs.forEach(img => observer.observe(img));
+}
+
+// 灯箱
+function openLB(img) {
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  lbImg.src = img.src;
+  lb.classList.add('active');
+}
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+// 初始化
+initLazyLoad();
+</script>
+</body>
+</html>
